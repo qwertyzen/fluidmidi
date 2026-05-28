@@ -4,6 +4,7 @@ from Cython.Build import cythonize
 from setuptools import setup
 sys.path.insert(0, os.path.dirname(__file__))
 import numpy
+from fsynth.install_fs import FluidsynthExtensionUtil
 
 DEBUG = False
 
@@ -47,6 +48,24 @@ ext_midi = Extension(
     extra_compile_args=extra_compile_args,
 )
 
+ext_util = FluidsynthExtensionUtil()
+
+ext_fsynth = Extension(
+    'fluidmidi.fluidseq',
+    sources=[
+        'fluidmidi/fluidseq.pyx',
+        'fluidmidi/cside/synth_api.c',
+        'fluidmidi/cside/cmidi.c',
+        'fluidmidi/cside/cmidi_codec.c',
+        'fluidmidi/cside/ctable_printer.c',
+        'fluidmidi/cside/cbytearray.c',
+        'fluidmidi/cside/cmidiconst.c'
+    ],
+    include_dirs=[numpy.get_include()] + include_dirs + ext_util.get_compiler_include_paths(),
+    define_macros=[("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
+    extra_compile_args=extra_compile_args,
+)
+
 setup_kwargs = {
     'name': 'fluidmidi',
     'version': '0.0.1',
@@ -54,7 +73,7 @@ setup_kwargs = {
     'author_email': 'anustuv@gmail.com',
     'description': 'A high-level MIDI library using numpy arrays.',
     'ext_modules': cythonize(
-        [ext_bytearray, ext_midi],
+        [ext_bytearray, ext_midi, ext_fsynth],
         compiler_directives={"language_level": "3"},
         ),
     'packages': find_packages(

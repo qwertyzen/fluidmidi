@@ -1,0 +1,3 @@
+[submodule "tests/fixtures/jazz-soft"]
+	path = tests/fixtures/jazz-soft
+	url = https://github.com/jazz-soft/test-midi-files.git

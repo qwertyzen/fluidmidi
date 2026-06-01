@@ -68,7 +68,7 @@ ext_fsynth = Extension(
 
 setup_kwargs = {
     'name': 'fluidmidi',
-    'version': '0.0.1',
+    'version': '0.1.0',
     'author': 'Anustuv Pal',
     'author_email': 'anustuv@gmail.com',
     'description': 'A high-level MIDI library using numpy arrays.',
@@ -79,7 +79,7 @@ setup_kwargs = {
     'packages': find_packages(
         where='.'),
     'install_requires': [
-        'numpy',
+        'numpy', 'ipympl', 'matplotlib', 'ipywidgets',
         "fsynth @ git+https://github.com/qwertyzen/fsynth.git"
     ],
 }

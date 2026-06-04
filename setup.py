@@ -60,10 +60,12 @@ ext_fsynth = Extension(
         'fluidmidi/cside/ctable_printer.c',
         'fluidmidi/cside/cbytearray.c',
         'fluidmidi/cside/cmidiconst.c'
-    ],
+    ] + ext_util.get_fsynth_c_sources(),
     include_dirs=[numpy.get_include()] + include_dirs + ext_util.get_compiler_include_paths(),
     define_macros=[("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
     extra_compile_args=extra_compile_args,
+    library_dirs=ext_util.get_linker_lib_dirs(),
+    libraries=ext_util.get_linker_libs(),
 )
 
 setup_kwargs = {

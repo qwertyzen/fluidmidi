@@ -1,6 +1,7 @@
 clean:
 	rm -rf fluidmidi/pyside/*.c \
-	fluidmidi/pyside/*.so
+	fluidmidi/pyside/*.so \
+	fluidmidi/*.c fluidmidi/*.so
 
 uninst:
 	pip uninstall fluidmidi -y

@@ -4,9 +4,6 @@ from fluidmidi.pyside.midi import Mtype
 from fluidmidi.pyside.cside cimport print_row, _DEFAULT_TICKS_PER_BEAT
 from fsynth.lib cimport *
 
-cdef extern from "cfsynth.h":
-    cdef int fs_send_channel_message(fluid_synth_t *synth, const unsigned char *data, int length)
-
 cdef extern from "synth_api.h":
     cdef int fs_send_fluidmidi_now(fluid_synth_t *fs, MidiRow *row, long num_rows)
 
@@ -63,7 +60,7 @@ cdef class FluidMidiSequence(SequencerClient):
                 scale
             )
 
-        elif mtype in (Mtype.BEND0, Mtype.BEND1):
+        elif mtype == Mtype.BEND0 or mtype == Mtype.BEND1:
             self._sequencer.send_pitch_bend(
                 at_tick,
                 row.channel,

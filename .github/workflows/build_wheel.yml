@@ -1,0 +1,39 @@
+name: Build Wheel for Google Colab
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch: # Allows you to trigger the build manually from the GitHub UI
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python 3.12
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+        cache: 'pip' # Caches pip dependencies to speed up subsequent builds
+
+    - name: Install build dependencies
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install setuptools wheel cython
+
+    - name: Build Wheel
+      run: |
+        python -m pip install --upgrade pip build
+        python -m build --wheel
+
+    - name: Upload Wheel as Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: fluidmidi-wheel
+        path: dist/*.whl
+        retention-days: 5
